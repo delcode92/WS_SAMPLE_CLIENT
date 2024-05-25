@@ -4,7 +4,12 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 const WebSocketPage = () => {
   const [message, setMessage] = useState('');
   const [receivedMessages, setReceivedMessages] = useState<(string | ArrayBuffer)[]>([]);
-  const client = new W3CWebSocket('ws://localhost:8080');
+  
+  // local host
+  // const client = new W3CWebSocket('ws://localhost:8084');
+  
+  // VPS 
+  const client = new W3CWebSocket('ws://103.127.133.115:8084');
 
   useEffect(() => {
 
