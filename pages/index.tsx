@@ -7,25 +7,25 @@ const WebSocketPage = () => {
   const [receivedMessages, setReceivedMessages] = useState<(string | ArrayBuffer)[]>([]);
   
   // const client = new W3CWebSocket('ws://localhost:8084');
-  // const client = new W3CWebSocket('ws://103.127.133.115:8084');
+  const client = new W3CWebSocket('ws://103.127.133.115:8084');
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   client.onopen = () => {
-  //     console.log('WebSocket Client Connected');
-  //   };
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
 
-  //   client.onmessage = (message) => {
-  //     console.log('Received message:', message.data);
-  //     // Use a type assertion to handle the data type properly
-  //     setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
-  //   };
+    client.onmessage = (message) => {
+      console.log('Received message:', message.data);
+      // Use a type assertion to handle the data type properly
+      setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
+    };
 
-  //   // return () => {
-  //   //   client.close();
-  //   // };
+    // return () => {
+    //   client.close();
+    // };
 
-  // }, []);
+  }, []);
 
   // client.onmessage = (message) => {
   //   console.log('Received message:', message.data);
@@ -36,15 +36,15 @@ const WebSocketPage = () => {
   const handleSend = () => {
     // Send a message to the WebSocket server
     // You can define your own message format here
-    // const messageToSend = { type: 'chatMessage', content: message };
-    // client.send(JSON.stringify(messageToSend));
-    // setMessage('');
+    const messageToSend = { type: 'chatMessage', content: message };
+    client.send(JSON.stringify(messageToSend));
+    setMessage('');
 
-    // client.onmessage = (message) => {
-    //   console.log('Received message:', message.data);
-    //   // Use a type assertion to handle the data type properly
-    //   setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
-    // };
+    client.onmessage = (message) => {
+      console.log('Received message:', message.data);
+      // Use a type assertion to handle the data type properly
+      setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
+    };
 
   };
 
