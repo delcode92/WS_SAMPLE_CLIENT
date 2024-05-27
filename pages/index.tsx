@@ -3,13 +3,9 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
 const WebSocketPage = () => {
   const [message, setMessage] = useState('');
+  // Specify the type of receivedMessages as an array of strings or ArrayBuffers
   const [receivedMessages, setReceivedMessages] = useState<(string | ArrayBuffer)[]>([]);
-  
-  // local host
-  // const client = new W3CWebSocket('ws://localhost:8084');
-  
-  // VPS 
-  const client = new W3CWebSocket('ws://103.127.133.115:8084');
+  const client = new W3CWebSocket('ws://localhost:8084');
 
   useEffect(() => {
 
@@ -19,13 +15,21 @@ const WebSocketPage = () => {
 
     client.onmessage = (message) => {
       console.log('Received message:', message.data);
+      // Use a type assertion to handle the data type properly
       setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
     };
 
     // return () => {
-    //   // client.close();
+    //   client.close();
     // };
+
   }, []);
+
+  // client.onmessage = (message) => {
+  //   console.log('Received message:', message.data);
+  //   // Use a type assertion to handle the data type properly
+  //   setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
+  // };
 
   const handleSend = () => {
     // Send a message to the WebSocket server
@@ -33,6 +37,13 @@ const WebSocketPage = () => {
     const messageToSend = { type: 'chatMessage', content: message };
     client.send(JSON.stringify(messageToSend));
     setMessage('');
+
+    client.onmessage = (message) => {
+      console.log('Received message:', message.data);
+      // Use a type assertion to handle the data type properly
+      setReceivedMessages(prevMessages => [...prevMessages, message.data as string | ArrayBuffer]);
+    };
+
   };
 
   return (
@@ -45,8 +56,8 @@ const WebSocketPage = () => {
       <div>
         <h2>Received Messages</h2>
         <ul>
-          {receivedMessages.map((mesg, index) => (
-            <li key={index}>{mesg.toString()}</li>
+          {receivedMessages.map((msg, index) => (
+            <li key={index}>{msg.toString()}</li>
           ))}
         </ul>
       </div>
