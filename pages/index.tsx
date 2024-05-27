@@ -5,7 +5,9 @@ const WebSocketPage = () => {
   const [message, setMessage] = useState('');
   // Specify the type of receivedMessages as an array of strings or ArrayBuffers
   const [receivedMessages, setReceivedMessages] = useState<(string | ArrayBuffer)[]>([]);
-  const client = new W3CWebSocket('ws://localhost:8084');
+  
+  // const client = new W3CWebSocket('ws://localhost:8084');
+  const client = new W3CWebSocket('ws://103.127.133.115:8084');
 
   useEffect(() => {
 
